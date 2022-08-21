@@ -1,4 +1,26 @@
+import { useState } from "react";
+
 const SignUp = () => {
+  const [feild, setFeild] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSignUp = (e) => {
+    if (e.target.name === "name") setFeild({ ...feild, name: e.target.value });
+    if (e.target.name === "email")
+      setFeild({ ...feild, email: e.target.value });
+    if (e.target.name === "password")
+      setFeild({ ...feild, password: e.target.value });
+
+    if (e.target.name === "confirm-password")
+      setFeild({ ...feild, confirmPassword: e.target.value });
+
+    console.log(feild);
+  };
+
   return (
     <div className="flex flex-col gap-3 absolute bottom-14">
       <div className="mt-7">
@@ -20,22 +42,26 @@ const SignUp = () => {
               Name
             </label>
             <input
+              onChange={handleSignUp}
               className="shadow appearance-none border-b rounded w-64 md:w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
+              name="name"
               type="text"
               placeholder="Name"
+              required
             ></input>
           </div>
 
           <div className="mb-5">
-            <label class="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
               Email
             </label>
             <input
+              onChange={handleSignUp}
               className="shadow appearance-none border-b rounded w-64 md:w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
+              name="email"
               type="email"
               placeholder="Email"
+              required
             ></input>
           </div>
 
@@ -44,10 +70,12 @@ const SignUp = () => {
               Password
             </label>
             <input
+              onChange={handleSignUp}
               className="shadow appearance-none border-b rounded w-64 md:w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
+              name="password"
               type="password"
               placeholder="Password"
+              required
             ></input>
           </div>
 
@@ -56,10 +84,12 @@ const SignUp = () => {
               Confirm Password
             </label>
             <input
+              onChange={handleSignUp}
               className="shadow appearance-none border-b rounded w-64 md:w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="confirm-password"
+              name="confirm-password"
               type="password"
               placeholder="Confirm Password"
+              required
             ></input>
           </div>
 

@@ -1,4 +1,17 @@
+import { useState } from "react";
+
 const SignIn = () => {
+  const [feild, setFeild] = useState({ email: "", password: "" });
+
+  const handleSignIn = (e) => {
+    if (e.target.name === "email")
+      setFeild({ ...feild, email: e.target.value });
+    if (e.target.name === "password")
+      setFeild({ ...feild, password: e.target.value });
+
+    console.log(feild);
+  };
+
   return (
     <div className="flex flex-col gap-8 absolute bottom-0">
       <div className="mt-7">
@@ -20,10 +33,12 @@ const SignIn = () => {
               Email
             </label>
             <input
+              onChange={handleSignIn}
               className="shadow appearance-none border-b rounded w-64 md:w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
               type="email"
+              name="email"
               placeholder="Email"
+              required
             ></input>
           </div>
 
@@ -32,10 +47,12 @@ const SignIn = () => {
               Password
             </label>
             <input
+              onChange={handleSignIn}
               className="shadow appearance-none border-b rounded w-64 md:w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
+              name="password"
               type="password"
               placeholder="Password"
+              required
             ></input>
           </div>
 
