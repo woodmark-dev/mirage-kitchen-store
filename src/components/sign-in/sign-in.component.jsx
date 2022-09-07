@@ -1,15 +1,28 @@
-import { useState } from "react";
+import { useReducer } from "react";
+
+const initialState = {
+  email: "",
+  password: "",
+};
+
+const reducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "email":
+      return { ...state, email: payload };
+    case "password":
+      return { ...state, password: payload };
+    default:
+      throw new Error();
+  }
+};
 
 const SignIn = () => {
-  const [feild, setFeild] = useState({ email: "", password: "" });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleSignIn = (e) => {
-    if (e.target.name === "email")
-      setFeild({ ...feild, email: e.target.value });
-    if (e.target.name === "password")
-      setFeild({ ...feild, password: e.target.value });
-
-    console.log(feild);
+    dispatch({ type: e.target.name, payload: e.target.value });
+    console.log(state);
   };
 
   return (

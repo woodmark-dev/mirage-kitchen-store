@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useReducer } from "react";
+
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
+const reducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "name":
+      return { ...state, name: payload };
+    case "email":
+      return { ...state, email: payload };
+    case "password":
+      return { ...state, password: payload };
+    case "confirm-password":
+      return { ...state, confirmPassword: payload };
+    default:
+      throw new Error();
+  }
+};
 
 const SignUp = () => {
-  const [feild, setFeild] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleSignUp = (e) => {
-    if (e.target.name === "name") setFeild({ ...feild, name: e.target.value });
-    if (e.target.name === "email")
-      setFeild({ ...feild, email: e.target.value });
-    if (e.target.name === "password")
-      setFeild({ ...feild, password: e.target.value });
+    dispatch({ type: e.target.name, payload: e.target.value });
+  };
 
-    if (e.target.name === "confirm-password")
-      setFeild({ ...feild, confirmPassword: e.target.value });
-
-    console.log(feild);
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(state);
   };
 
   return (
@@ -94,7 +108,10 @@ const SignUp = () => {
           </div>
 
           <div className="flex justify-center">
-            <button className="m-4 w-20 h-10 border font-bold text-[#937dc2] rounded-lg transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white">
+            <button
+              onClick={submitHandler}
+              className="m-4 w-20 h-10 border font-bold text-[#937dc2] rounded-lg transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white"
+            >
               SIGN UP
             </button>
           </div>
