@@ -1,13 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import store from "./redux/store";
+import { fetchShopData } from "./redux/features/shopItems-slice";
+import { fetchCategoriesData } from "./redux/features/category-slice";
+import { fetchAllItems } from "./redux/features/allShopItems";
+
+store.dispatch(fetchShopData);
+store.dispatch(fetchCategoriesData);
+store.dispatch(fetchAllItems);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 
