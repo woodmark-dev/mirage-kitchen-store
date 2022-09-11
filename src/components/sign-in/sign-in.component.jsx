@@ -1,4 +1,6 @@
 import { useReducer } from "react";
+import { useSignIn } from "../../custom-hooks/useSignIn";
+import { useGoogleSignUp } from "../../custom-hooks/useGoogleSignUp";
 
 const initialState = {
   email: "",
@@ -19,16 +21,30 @@ const reducer = (state, action) => {
 
 const SignIn = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { signin } = useSignIn();
+  const { googleSignUp } = useGoogleSignUp();
 
   const handleSignIn = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
-    console.log(state);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const { email, password } = state;
+    signin(email, password);
+  };
+
+  const handleGoogleSignin = () => {
+    googleSignUp();
   };
 
   return (
     <div className="flex flex-col gap-8 absolute bottom-0">
       <div className="mt-7">
-        <button className="bg-[#937dc2] w-64 h-10 rounded-xl font-bold text-white md:w-80 transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white">
+        <button
+          onClick={handleGoogleSignin}
+          className="bg-[#937dc2] w-64 h-10 rounded-xl font-bold text-white md:w-80 transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white"
+        >
           Sign in with Google
         </button>
       </div>
@@ -40,7 +56,7 @@ const SignIn = () => {
       </div>
 
       <div className="w-64 h-85 md:w-80">
-        <form>
+        <form onSubmit={submitHandler}>
           <div className="mb-8">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Email

@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 const CartItem = () => {
   const cartItems = useSelector((state) => state.cartItems);
   const storeItems = useSelector((state) => state.allShopItems);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

@@ -1,7 +1,10 @@
 import { useReducer } from "react";
 
+import { useSignup } from "../../custom-hooks/useSignUp";
+import { useGoogleSignUp } from "../../custom-hooks/useGoogleSignUp";
+
 const initialState = {
-  name: "",
+  displayName: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -10,8 +13,8 @@ const initialState = {
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
-    case "name":
-      return { ...state, name: payload };
+    case "displayName":
+      return { ...state, displayName: payload };
     case "email":
       return { ...state, email: payload };
     case "password":
@@ -25,6 +28,8 @@ const reducer = (state, action) => {
 
 const SignUp = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { err, signup } = useSignup();
+  const { googleSignUp } = useGoogleSignUp();
 
   const handleSignUp = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
@@ -32,13 +37,17 @@ const SignUp = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(state);
+    const { email, password, displayName } = state;
+    signup(email, password, displayName);
   };
 
   return (
     <div className="flex flex-col gap-3 absolute bottom-14">
       <div className="mt-7">
-        <button className="bg-[#937dc2] w-64 h-10 rounded-xl font-bold text-white md:w-80 transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white">
+        <button
+          onClick={() => googleSignUp()}
+          className="bg-[#937dc2] w-64 h-10 rounded-xl font-bold text-white md:w-80 transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white"
+        >
           Sign up with Google
         </button>
       </div>
@@ -50,7 +59,7 @@ const SignUp = () => {
       </div>
 
       <div className="w-64 h-90 md:w-80">
-        <form>
+        <form onSubmit={submitHandler}>
           <div className="mb-5">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Name
@@ -58,7 +67,7 @@ const SignUp = () => {
             <input
               onChange={handleSignUp}
               className="shadow appearance-none border-b rounded w-64 md:w-80 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="name"
+              name="displayName"
               type="text"
               placeholder="Name"
               required
@@ -108,13 +117,11 @@ const SignUp = () => {
           </div>
 
           <div className="flex justify-center">
-            <button
-              onClick={submitHandler}
-              className="m-4 w-20 h-10 border font-bold text-[#937dc2] rounded-lg transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white"
-            >
+            <button className="m-4 w-20 h-10 border font-bold text-[#937dc2] rounded-lg transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white">
               SIGN UP
             </button>
           </div>
+          {err && <p>{err}</p>}
         </form>
       </div>
     </div>

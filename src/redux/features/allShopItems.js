@@ -1,4 +1,6 @@
-import { projectFirestore } from "../../firebase-utils/config";
+import { collection, getDocs } from "firebase/firestore";
+import { database } from "../../firebase-utils/config";
+
 const initialState = [];
 
 const allShopItemsReducer = (state = initialState, action) => {
@@ -20,13 +22,16 @@ const allItems = (results) => {
 };
 
 const fetchAllItems = async (dispatch) => {
-  const res = await projectFirestore.collection("shop-items").get();
-  const results = res.docs.flatMap((item) => {
+  const res = collection(database, "shop-items");
+
+  const result = await getDocs(res);
+
+  const mainData = result.docs.flatMap((item) => {
     const data = item.data().items;
     return data;
   });
 
-  dispatch(allItems(results));
+  dispatch(allItems(mainData));
 };
 
 export { fetchAllItems };

@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import HeartIcon from "../icons/heart-icon";
 
 const ShopItem = ({ item }) => {
   const storeItems = useSelector((state) => state.allShopItems);
-  const all = useSelector((state) => state);
+  // const all = useSelector((state) => state.userData.cartItems);
   const dispatch = useDispatch();
+
+  // console.log(all);
 
   const addToCart = (allItems, item) => {
     return {
@@ -15,11 +16,14 @@ const ShopItem = ({ item }) => {
   };
 
   const addRemoveFav = (allItems, item) => {
-    console.log(all);
     return {
       type: "favItem/add/remove",
       payload: { allItems, item },
     };
+  };
+
+  const addToFavHandler = (storeItems, item) => {
+    dispatch(addRemoveFav(storeItems, item));
   };
 
   const { imgUrl, name } = item;
@@ -34,10 +38,12 @@ const ShopItem = ({ item }) => {
         <div className="w-[70%] h-[90%] bg-zinc-50 absolute rounded-full"></div>
 
         <div
-          onClick={() => dispatch(addRemoveFav(storeItems, item))}
+          onClick={() => addToFavHandler(storeItems, item)}
           className="absolute z-10 top-0 right-2 cursor-pointer"
         >
-          <HeartIcon />
+          <p className="text-3xl text-white bg-black rounded w-8 h-8 flex justify-center items-center">
+            &hearts;
+          </p>
         </div>
       </div>
       <button
@@ -51,3 +57,22 @@ const ShopItem = ({ item }) => {
 };
 
 export default ShopItem;
+
+// import { onAuthStateChanged } from "firebase/auth";
+// import { auth, database } from "../../firebase-utils/config";
+// import { doc, setDoc } from "firebase/firestore";
+
+// const fun = (cartItems) => {
+//   onAuthStateChanged(auth, (user) => {
+//     if (!user) return;
+//     const setCartItems = async (user, items) => {
+//       await setDoc(doc(database, "users", user.uid), {
+//         cartItems: [...items],
+//         hey: "Hello",
+//         user: user.uid,
+//       });
+//     };
+
+//     setCartItems(user, cartItems);
+//   });
+// };

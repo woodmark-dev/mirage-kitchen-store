@@ -1,4 +1,6 @@
-import { projectFirestore } from "../../firebase-utils/config";
+import { collection, getDocs } from "firebase/firestore";
+import { database } from "../../firebase-utils/config";
+
 const initialSate = [];
 
 const categoriesItemReducer = (state = initialSate, action) => {
@@ -20,8 +22,9 @@ const fetchData = (results) => {
 };
 
 export const fetchCategoriesData = async (dispatch) => {
-  const res = await projectFirestore.collection("categories").get();
-  const results = res.docs.flatMap((item) => {
+  const res = collection(database, "categories");
+  const result = await getDocs(res);
+  const results = result.docs.flatMap((item) => {
     return item.data().items;
   });
 

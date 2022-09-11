@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
+import { useSignOut } from "../../../custom-hooks/useSignOut";
 import CartItems from "../cart/cartItems";
 import store from "../../../redux/store";
 import { cartTotal } from "../../../redux/helperfunctions";
-import { useState } from "react";
-import { useEffect } from "react";
+import { database } from "../../../firebase-utils/config";
+import { doc, setDoc } from "firebase/firestore";
 
 const toggleCart = () => {
   return {
@@ -16,7 +18,58 @@ const toggleCart = () => {
 const Header = () => {
   const toggle = useSelector((state) => state.cartToggle);
   const cartItems = useSelector((state) => state.cartItems);
+  const favoriteItems = useSelector((state) => state.favItems);
+  const user = useSelector((state) => state.userData.user);
+  const userState = useSelector((state) => state.userData.userState);
   const [total, setTotal] = useState(0);
+  const { signout } = useSignOut();
+
+  const setState = (state) => {
+    return {
+      type: "userState",
+      payload: state,
+    };
+  };
+
+  const resetUser = () => {
+    return {
+      type: "resetUser",
+    };
+  };
+
+  const resetCartItems = (emptyArray) => {
+    return {
+      type: "resetCartItems",
+      payload: emptyArray,
+    };
+  };
+
+  const resetFavItems = (emptyArray) => {
+    return {
+      type: "resetfavItems",
+      payload: emptyArray,
+    };
+  };
+
+  const handleSignOut = () => {
+    if (user) {
+      signout();
+      store.dispatch(setState(false));
+      store.dispatch(resetUser());
+
+      const setCartFavItems = async (user, items, favoriteItems) => {
+        await setDoc(doc(database, "users", user), {
+          cartItems: items,
+          favItems: favoriteItems,
+          user: user,
+        });
+      };
+      setCartFavItems(user, cartItems, favoriteItems);
+
+      store.dispatch(resetCartItems([]));
+      store.dispatch(resetFavItems([]));
+    }
+  };
 
   useEffect(() => {
     setTotal(() => cartTotal(cartItems));
@@ -38,7 +91,13 @@ const Header = () => {
           <Link to="/contact">Contact</Link>
         </div>
         <div className="uppercase font-medium">
-          <Link to="sign-in">Sign in</Link>
+          {userState === true ? (
+            <p onClick={handleSignOut} className="cursor-pointer">
+              Sign out
+            </p>
+          ) : (
+            <Link to="sign-in">Sign in</Link>
+          )}
         </div>
       </div>
 

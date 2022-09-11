@@ -24,6 +24,12 @@ const favItemsReducer = (state = initialState, action) => {
       }
       return state;
     }
+    case "loadFavItems": {
+      return [...state, ...payload];
+    }
+    case "resetfavItems": {
+      return payload;
+    }
 
     default:
       return state;

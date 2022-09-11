@@ -43,6 +43,20 @@ const cartItemsReducer = (state = initialState, action) => {
       }
       return state;
     }
+
+    case "loadUserCartItems": {
+      const result = [...state, ...payload].reduce(function (acc, curr) {
+        if (!acc.find((item) => item.id === curr.id)) acc.push(curr);
+        return acc;
+      }, []);
+
+      return result;
+    }
+
+    case "resetCartItems": {
+      return payload;
+    }
+
     default: {
       return state;
     }
