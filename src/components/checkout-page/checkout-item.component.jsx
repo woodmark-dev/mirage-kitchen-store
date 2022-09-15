@@ -1,29 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
+import {
+  addToCart,
+  subtractFromCart,
+  removeCartItem,
+} from "../redux-functions/redex-functions";
 
 const CheckoutItem = ({ item }) => {
   const storeItems = useSelector((state) => state.allShopItems);
   const dispatch = useDispatch();
-
-  const subtractFromCart = (allItems, item) => {
-    return {
-      type: "cartItem/subtract",
-      payload: { allItems, item },
-    };
-  };
-
-  const addToCart = (allItems, item) => {
-    return {
-      type: "cartItem/add",
-      payload: { allItems, item },
-    };
-  };
-
-  const removeItem = (allItems, item) => {
-    return {
-      type: "cartItem/remove",
-      payload: { allItems, item },
-    };
-  };
 
   return (
     <li className="bg-zinc-50 px-2 py-2 rounded-2xl flex gap-2 items-center justify-between">
@@ -43,7 +27,7 @@ const CheckoutItem = ({ item }) => {
 
       <div className="flex flex-col items-end justify-between">
         <div
-          onClick={() => dispatch(removeItem(storeItems, item))}
+          onClick={() => dispatch(removeCartItem(storeItems, item))}
           className="p-1 hover:bg-zinc-400 hover:text-white rounded-full font-bold flex items-center justify-center"
         >
           <ion-icon className="text-xl" name="close-outline"></ion-icon>

@@ -12,7 +12,7 @@ const favItemsReducer = (state = initialState, action) => {
       if (matchedItem) {
         return filterItems(state, matchedItem);
       }
-      return [...state, { ...currentItem }];
+      return [...state, { ...currentItem, fav: true }];
     }
 
     case "favItem/remove": {

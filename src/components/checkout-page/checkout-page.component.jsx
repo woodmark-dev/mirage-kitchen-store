@@ -3,13 +3,14 @@ import { computePrice } from "../../redux/helperfunctions";
 import { useState, useEffect } from "react";
 
 import CheckoutItem from "./checkout-item.component";
+import PaymentForm from "../payment-form/payment-form.component";
 
 const Checkout = () => {
   const cartItems = useSelector((state) => state.cartItems);
-  const [price, setPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    setPrice(() => computePrice(cartItems));
+    setTotalPrice(() => computePrice(cartItems));
   }, [cartItems]);
 
   return (
@@ -19,20 +20,24 @@ const Checkout = () => {
       </div>
 
       <div className="bg-zinc-100 rounded-2xl pb-2">
-        <ul className="p-6 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-3 gap-2">
-          {cartItems.map((item) => {
-            return <CheckoutItem key={item.id} item={item} />;
-          })}
-        </ul>
+        {cartItems.length === 0 ? (
+          <p className="text-center uppercase my-20 pt-3">
+            You have no favorite items yet
+          </p>
+        ) : (
+          <ul className="p-6 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-3 gap-2">
+            {cartItems.map((item) => {
+              return <CheckoutItem key={item.id} item={item} />;
+            })}
+          </ul>
+        )}
 
-        <div className="flex items-center max-w-sm bg-zinc-50 justify-between px-6 py-4 rounded-2xl m-auto mt-8 shadow-xl">
+        <div className="flex items-center flex-col max-w-sm bg-zinc-50 justify-around px-6 py-4 rounded-2xl m-auto mt-8 shadow-xl">
           <div className="flex items-center gap-2">
             <span className="uppercase font-medium">total:</span>
-            <span className="text-2xl font-semibold">${price}</span>
+            <span className="text-2xl font-semibold">${totalPrice}</span>
           </div>
-          <button className="font-semibold text-lg px-6 py-3 bg-zinc-200 rounded-3xl hover:bg-zinc-300">
-            Check Out
-          </button>
+          <PaymentForm total={totalPrice} />
         </div>
       </div>
     </div>

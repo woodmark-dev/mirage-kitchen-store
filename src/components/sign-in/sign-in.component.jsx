@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { useSignIn } from "../../custom-hooks/useSignIn";
 import { useGoogleSignUp } from "../../custom-hooks/useGoogleSignUp";
+import Button from "../button/button.component";
 
 const initialState = {
   email: "",
@@ -15,14 +16,14 @@ const reducer = (state, action) => {
     case "password":
       return { ...state, password: payload };
     default:
-      throw new Error();
+      return state;
   }
 };
 
 const SignIn = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { signin } = useSignIn();
-  const { googleSignUp } = useGoogleSignUp();
+  const { signin, err } = useSignIn();
+  const { googleSignUp, erro } = useGoogleSignUp();
 
   const handleSignIn = (e) => {
     dispatch({ type: e.target.name, payload: e.target.value });
@@ -43,10 +44,15 @@ const SignIn = () => {
       <div className="mt-7">
         <button
           onClick={handleGoogleSignin}
-          className="bg-[#937dc2] w-64 h-10 rounded-xl font-bold text-white md:w-80 transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white"
+          className="bg-blue-500 w-64 h-10 rounded-xl font-bold text-white md:w-80 transition-all duration-500 hover:bg-blue-600"
         >
           Sign in with Google
         </button>
+        {erro && (
+          <p className="flex flex-col justify-center items-center">
+            Could not sign up <br /> {erro}
+          </p>
+        )}
       </div>
 
       <div className="flex items-center">
@@ -86,10 +92,9 @@ const SignIn = () => {
           </div>
 
           <div className="flex justify-center">
-            <button className="m-4 w-20 h-10 border font-bold text-[#937dc2] rounded-lg transition-all duration-500 hover:bg-gradient-to-r hover:from-[#937dc2] hover:to-[#c689c6] hover:text-white">
-              SIGN IN
-            </button>
+            <Button text="SUBMIT" />
           </div>
+          {err && <p>{err}</p>}
         </form>
       </div>
     </div>

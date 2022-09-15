@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import SignIn_SignUp from "./components/signIn-signUp page/sinIn-signUp-page.component";
 import HomePage from "./components/home-page/home-page.component";
@@ -10,16 +11,37 @@ import Checkout from "./components/checkout-page/checkout-page.component";
 import Favorites from "./components/favorites-page/favorites-page.component";
 
 function App() {
+  const userState = useSelector((state) => state.userData.userState);
   return (
     <Routes>
       <Route path="/" element={<FooterRoute />}>
         <Route path="/" element={<Navigation />}>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="shop/*" element={<Shop />} />
-          <Route path="sign-in" element={<SignIn_SignUp />} />
+          <Route
+            exact
+            path="sign-in"
+            element={
+              userState === false ? (
+                <SignIn_SignUp />
+              ) : (
+                <Navigate replace to={"/"} />
+              )
+            }
+          />
           <Route path="contact" element={<ContactPage />} />
           <Route path="checkout" element={<Checkout />} />
-          <Route path="favorites" element={<Favorites />} />
+          <Route
+            exact
+            path="favorites"
+            element={
+              userState === true ? (
+                <Favorites />
+              ) : (
+                <Navigate replace to={"/sign-in"} />
+              )
+            }
+          />
         </Route>
       </Route>
     </Routes>

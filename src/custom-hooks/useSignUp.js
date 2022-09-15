@@ -22,7 +22,6 @@ export const useSignup = () => {
       }
       setErr(null);
     } catch (err) {
-      console.log(err.message);
       setErr(err.message);
     }
   };

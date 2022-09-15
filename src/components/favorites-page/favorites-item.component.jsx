@@ -1,15 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
+import { removeFav } from "../redux-functions/redex-functions";
+import { addToCart } from "../redux-functions/redex-functions";
 
 const FavoritesItem = ({ item }) => {
   const storeItems = useSelector((state) => state.allShopItems);
   const dispatch = useDispatch();
-
-  const removeFav = (allItems, item) => {
-    return {
-      type: "favItem/remove",
-      payload: { allItems, item },
-    };
-  };
 
   return (
     <li className="bg-zinc-50 px-2 py-2 rounded-2xl flex gap-2 items-center justify-between">
@@ -27,12 +22,23 @@ const FavoritesItem = ({ item }) => {
         </div>
       </div>
 
+      <div>
+        <button
+          onClick={() => dispatch(addToCart(storeItems, item))}
+          className="font-medium p-2 border-2 border-zinc-200 bg-zinc-200 rounded-lg mt-3 w-full text-center"
+        >
+          Add to cart
+        </button>
+      </div>
+
       <div className="flex flex-col items-end justify-between">
         <div
           onClick={() => dispatch(removeFav(storeItems, item))}
           className="p-1 hover:bg-zinc-400 hover:text-white rounded-full font-bold flex items-center justify-center"
         >
-          <ion-icon className="text-xl" name="close-outline"></ion-icon>
+          <div>
+            <ion-icon className="text-xl" name="close-outline"></ion-icon>
+          </div>
         </div>
       </div>
     </li>

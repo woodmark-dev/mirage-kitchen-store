@@ -1,5 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import { database } from "../../firebase-utils/config";
+import { allItems } from "../../components/redux-functions/redex-functions";
 
 const initialState = [];
 
@@ -12,13 +13,6 @@ const allShopItemsReducer = (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-const allItems = (results) => {
-  return {
-    type: "include_all_items",
-    payload: results,
-  };
 };
 
 const fetchAllItems = async (dispatch) => {

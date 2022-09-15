@@ -1,19 +1,27 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useSignOut } from "../../../custom-hooks/useSignOut";
 import CartItems from "../cart/cartItems";
+import PopUp from "../../pop-up/pop-up.component";
+import { togglePopup } from "../../redux-functions/redex-functions";
+
 import store from "../../../redux/store";
 import { cartTotal } from "../../../redux/helperfunctions";
+import { favTotal } from "../../../redux/helperfunctions";
 import { database } from "../../../firebase-utils/config";
 import { doc, setDoc } from "firebase/firestore";
+import logo from "../../../logo/new-logo.png";
 
-const toggleCart = () => {
-  return {
-    type: "toggleCart",
-  };
-};
+import {
+  setState,
+  toggleCart,
+  resetUser,
+  resetCartItems,
+  resetFavItems,
+} from "../../redux-functions/redex-functions";
 
 const Header = () => {
   const toggle = useSelector((state) => state.cartToggle);
@@ -21,34 +29,16 @@ const Header = () => {
   const favoriteItems = useSelector((state) => state.favItems);
   const user = useSelector((state) => state.userData.user);
   const userState = useSelector((state) => state.userData.userState);
+  const popupToggle = useSelector((state) => state.popupToggle);
   const [total, setTotal] = useState(0);
+  const [favoTotal, setFavTotal] = useState(0);
   const { signout } = useSignOut();
 
-  const setState = (state) => {
-    return {
-      type: "userState",
-      payload: state,
-    };
-  };
+  let navigate = useNavigate();
 
-  const resetUser = () => {
-    return {
-      type: "resetUser",
-    };
-  };
-
-  const resetCartItems = (emptyArray) => {
-    return {
-      type: "resetCartItems",
-      payload: emptyArray,
-    };
-  };
-
-  const resetFavItems = (emptyArray) => {
-    return {
-      type: "resetfavItems",
-      payload: emptyArray,
-    };
+  const favPageHandler = () => {
+    if (userState === false) return store.dispatch(togglePopup());
+    return navigate(`/favorites`);
   };
 
   const handleSignOut = () => {
@@ -75,15 +65,21 @@ const Header = () => {
     setTotal(() => cartTotal(cartItems));
   }, [cartItems]);
 
+  useEffect(() => {
+    setFavTotal(() => favTotal(favoriteItems));
+  }, [favoriteItems]);
+
   const toggleHandler = () => {
     store.dispatch(toggleCart());
   };
 
   return (
-    <div className="flex items-center justify-between px-6 pb-0 pt-10 md:px-10">
-      <Link to="/">LOGO</Link>
+    <div className="flex items-center md:justify-between pt-10 md:px-10 px-4">
+      <Link className="pt-6 w-32 h-32" to="/">
+        <img src={logo} alt="logo" />
+      </Link>
 
-      <div className="flex items-center gap-6 md:gap-8">
+      <div className="flex items-center gap-3 text-sm md:text-lg md:gap-8 pr-8">
         <div className="uppercase font-medium">
           <Link to="/shop">Shop</Link>
         </div>
@@ -102,11 +98,24 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-4 md:gap-6">
-        <Link to="favorites" className="p-0.5 cursor-pointer">
-          <ion-icon size="large" name="heart"></ion-icon>
-        </Link>
+        <div onClick={favPageHandler} className="cursor-pointer relative">
+          <div
+            style={{
+              color: favoTotal === 0 ? "white" : "red",
+              backgroundColor: favoTotal === 0 ? "black" : "white",
+            }}
+            className="text-2xl md:text-3xl rounded w-7 h-7 md:w-8 md:h-8 flex justify-center items-center"
+          >
+            &hearts;
+          </div>
+          {userState && (
+            <div className="flex items-center justify-center text-black w-5 h-5 bg-zinc-200 rounded-full absolute -top-3 -right-3 text-xs">
+              {favoTotal}
+            </div>
+          )}
+        </div>
         <div onClick={toggleHandler} className="p-0.5 cursor-pointer relative">
-          <ion-icon size="large" className="text-6xl" name="cart"></ion-icon>
+          <p className="text-xl md:text-2xl">&#128722;</p>
           <div className="flex items-center justify-center w-5 h-5 bg-zinc-200 rounded-full absolute -top-2 -right-2 text-xs">
             {total}
           </div>
@@ -114,10 +123,10 @@ const Header = () => {
       </div>
 
       {toggle && <CartItems />}
+
+      {popupToggle && <PopUp />}
     </div>
   );
 };
-
-export { toggleCart };
 
 export default Header;

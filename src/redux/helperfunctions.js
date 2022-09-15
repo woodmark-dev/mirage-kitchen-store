@@ -14,3 +14,5 @@ export const computePrice = (items) =>
 
 export const cartTotal = (items) =>
   items.map((item) => item.quantity).reduce((curr, next) => curr + next, 0);
+
+export const favTotal = (items) => items.length;

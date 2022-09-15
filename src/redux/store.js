@@ -11,6 +11,7 @@ import categoriesItemReducer from "./features/category-slice";
 import cartToggleReducer from "./features/cartToggle-slice";
 import allShopItemsReducer from "./features/allShopItems";
 import userReducer from "./features/userSlice";
+import togglePopupReducer from "./features/popupSlice";
 
 const reducers = combineReducers({
   cartItems: cartItemsReducer,
@@ -19,13 +20,20 @@ const reducers = combineReducers({
   allShopItems: allShopItemsReducer,
   categoriesItem: categoriesItemReducer,
   cartToggle: cartToggleReducer,
+  popupToggle: togglePopupReducer,
   userData: userReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["shopItems", "allShopItems", "categoriesItem", "cartToggle"],
+  blacklist: [
+    "shopItems",
+    "allShopItems",
+    "categoriesItem",
+    "cartToggle",
+    "popupToggle",
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

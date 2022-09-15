@@ -3,9 +3,18 @@ import { auth, database } from "../../firebase-utils/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import store from "../store";
 
+import {
+  fetchUser,
+  setState,
+  loadUserCartItems,
+  loadUserFavItems,
+  fetchDisplayName,
+} from "../../components/redux-functions/redex-functions";
+
 const initialSate = {
   user: null,
   userState: false,
+  displayName: null,
 };
 
 const userReducer = (state = initialSate, action) => {
@@ -13,6 +22,12 @@ const userReducer = (state = initialSate, action) => {
   switch (type) {
     case "fetchUser": {
       return { ...state, user: payload };
+    }
+    case "displayName": {
+      return {
+        ...state,
+        displayName: payload,
+      };
     }
     case "userState": {
       return { ...state, userState: payload };
@@ -27,38 +42,11 @@ const userReducer = (state = initialSate, action) => {
   }
 };
 
-const fetchUser = (user) => {
-  return {
-    type: "fetchUser",
-    payload: user,
-  };
-};
-
-const setState = (state) => {
-  return {
-    type: "userState",
-    payload: state,
-  };
-};
-
-const loadUserCartItems = (cartItems) => {
-  return {
-    type: "loadUserCartItems",
-    payload: cartItems,
-  };
-};
-
-const loadUserFavItems = (favItems) => {
-  return {
-    type: "loadFavItems",
-    payload: favItems,
-  };
-};
-
 onAuthStateChanged(auth, (user) => {
   if (user) {
     store.dispatch(fetchUser(user.uid));
     store.dispatch(setState(true));
+    store.dispatch(fetchDisplayName(user.displayName));
 
     const fetchData = async () => {
       const ref = collection(database, "users");

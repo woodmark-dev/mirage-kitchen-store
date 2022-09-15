@@ -1,10 +1,10 @@
 const ContactPage = () => {
   return (
-    <div className="px-10 pb-10 md:px-28 md:pt-8 my-16">
-      <div className="bg-zinc-200 p-4 rounded-2xl lg:mx-24 xl:mx-36">
+    <div className="px-10 pb-10 md:px-28 md:pt-8 my-16 flex justify-center">
+      <div className="bg-zinc-200 p-4 rounded-2xl w-120">
         <form
           action=""
-          className="flex flex-col gap-4 -28 bg-zinc-50 rounded-xl px-5 py-10 md:px-12 md:py-10 xl:px-16"
+          className="flex flex-col gap-4 -28 bg-zinc-50 rounded-xl px-5 py-10 "
         >
           <div>
             <label className="block text-lg font-medium mb-2">Full name</label>

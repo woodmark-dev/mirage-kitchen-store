@@ -1,36 +1,37 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { findItem } from "../../redux/helperfunctions";
+import store from "../../redux/store";
+import { togglePopup } from "../redux-functions/redex-functions";
+
+import { addToCart, addRemoveFav } from "../redux-functions/redex-functions";
+
+const fun = (favItems, item) => {
+  if (favItems.length === 0) return;
+  if (findItem(favItems, item)) return true;
+  return false;
+};
 
 const ShopItem = ({ item }) => {
   const storeItems = useSelector((state) => state.allShopItems);
-  // const all = useSelector((state) => state.userData.cartItems);
+  const favItems = useSelector((state) => state.favItems);
+  const userState = useSelector((state) => state.userData.userState);
   const dispatch = useDispatch();
 
-  // console.log(all);
+  useEffect(() => {
+    fun(favItems, item);
+  }, [favItems, item]);
 
-  const addToCart = (allItems, item) => {
-    return {
-      type: "cartItem/add",
-      payload: { allItems, item },
-    };
+  const favIconHandler = (storeItems, item) => {
+    if (userState === true) return dispatch(addRemoveFav(storeItems, item));
+    return store.dispatch(togglePopup());
   };
 
-  const addRemoveFav = (allItems, item) => {
-    return {
-      type: "favItem/add/remove",
-      payload: { allItems, item },
-    };
-  };
-
-  const addToFavHandler = (storeItems, item) => {
-    dispatch(addRemoveFav(storeItems, item));
-  };
-
-  const { imgUrl, name } = item;
+  const { imgUrl, name, price } = item;
   return (
     <div>
-      <div className="relative flex items-center justify-center bg-zinc-100 overflow-hidden p-10 h-80">
-        <div className="z-10 w-36">
+      <div className="relative flex items-center justify-center bg-zinc-100 overflow-hidden p-10">
+        <div className="z-10 md:w-52 md:h-60 h-24 flex items-center">
           <img src={imgUrl} alt={name} />
         </div>
 
@@ -38,17 +39,27 @@ const ShopItem = ({ item }) => {
         <div className="w-[70%] h-[90%] bg-zinc-50 absolute rounded-full"></div>
 
         <div
-          onClick={() => addToFavHandler(storeItems, item)}
+          onClick={() => favIconHandler(storeItems, item)}
           className="absolute z-10 top-0 right-2 cursor-pointer"
         >
-          <p className="text-3xl text-white bg-black rounded w-8 h-8 flex justify-center items-center">
+          <p
+            style={{
+              color: fun(favItems, item) === true ? "red" : "white",
+              backgroundColor: fun(favItems, item) === true ? "white" : "black",
+            }}
+            className="text-3xl rounded w-8 h-8 flex justify-center items-center"
+          >
             &hearts;
           </p>
         </div>
       </div>
+      <div className="flex justify-between border-x-2 w-full">
+        <p className="mx-2 my-1">{name}</p>
+        <p className="mx-2 my-1">${price}</p>
+      </div>
       <button
         onClick={() => dispatch(addToCart(storeItems, item))}
-        className="font-medium p-2 border-2 border-zinc-200 bg-zinc-200 rounded-lg mt-3 w-full text-center"
+        className="font-medium p-2 border-2 border-zinc-200 bg-zinc-200 rounded-lg text-center w-full"
       >
         Add to cart
       </button>
@@ -58,21 +69,23 @@ const ShopItem = ({ item }) => {
 
 export default ShopItem;
 
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth, database } from "../../firebase-utils/config";
-// import { doc, setDoc } from "firebase/firestore";
+//Today:
+//implement persist
+//refactor your redux functions
 
-// const fun = (cartItems) => {
-//   onAuthStateChanged(auth, (user) => {
-//     if (!user) return;
-//     const setCartItems = async (user, items) => {
-//       await setDoc(doc(database, "users", user.uid), {
-//         cartItems: [...items],
-//         hey: "Hello",
-//         user: user.uid,
-//       });
-//     };
+//Tomorow:
+//Optimize blender images
+//start styling finishes and responsiveness
 
-//     setCartItems(user, cartItems);
-//   });
-// };
+//Monday:
+//Finish stylish and responsiveness finishes
+//catching errors and implementing spinners
+
+//Tuesday:
+//Finish catching errors
+//Testing
+
+//Wednesday:
+//Finish testing
+//implement favicon
+//deployment

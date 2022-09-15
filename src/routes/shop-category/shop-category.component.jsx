@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LoadingSpinner from "../../components/loading-spinner/loading-spinner.component";
 
 import ShopItem from "../../components/shop-page/shop-item";
 
@@ -11,7 +12,9 @@ const findItem = (products, category) => {
 };
 
 const ShopCategoryRoute = () => {
-  const shopItems = useSelector((state) => state.shopItems);
+  const shopItems = useSelector((state) => state.shopItems.items);
+  const loadingError = useSelector((state) => state.shopItems.loadingError);
+  const loadingState = useSelector((state) => state.categoriesItem.isLoading);
   const [shopItem, setShopItem] = useState([]);
   const { category } = useParams();
 
@@ -24,12 +27,23 @@ const ShopCategoryRoute = () => {
   }, [shopItems, category]);
 
   return (
-    <div className="relative pr-10">
-      <p className="uppercase text-xl font-semibold mb-4">{category}</p>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 group">
-        {shopItem &&
-          shopItem.map((item) => <ShopItem key={item.id} item={item} />)}
-      </div>
+    <div className="relative px-10 py-14">
+      <p className="uppercase text-xl text-center font-semibold mb-6">
+        {category}
+      </p>
+      {loadingError && (
+        <div className="text-center h-64">
+          Could not load {category}. Please try again
+        </div>
+      )}
+      {loadingState === true ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+          {shopItem &&
+            shopItem.map((item) => <ShopItem key={item.id} item={item} />)}
+        </div>
+      )}
     </div>
   );
 };
