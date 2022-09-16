@@ -31,7 +31,7 @@ const ShopItem = ({ item }) => {
   return (
     <div>
       <div className="relative flex items-center justify-center bg-zinc-100 overflow-hidden p-10">
-        <div className="z-10 md:w-52 md:h-60 h-24 flex items-center">
+        <div className="z-10 md:w-52 md:h-60 flex items-center">
           <img src={imgUrl} alt={name} />
         </div>
 
@@ -40,20 +40,20 @@ const ShopItem = ({ item }) => {
 
         <div
           onClick={() => favIconHandler(storeItems, item)}
-          className="absolute z-10 top-0 right-2 cursor-pointer"
+          className="absolute z-10 top-2 right-2 cursor-pointer"
         >
           <p
             style={{
               color: fun(favItems, item) === true ? "red" : "white",
               backgroundColor: fun(favItems, item) === true ? "white" : "black",
             }}
-            className="text-3xl rounded w-5 h-5 flex justify-center items-center"
+            className="text-3xl rounded w-5 h-5 md:h-8 md:w-8 flex justify-center items-center"
           >
             &#9825;
           </p>
         </div>
       </div>
-      <div className="flex justify-between border-x-2 w-full">
+      <div className="flex justify-around border-x-2 w-full">
         <p className="mx-2 my-1">{name}</p>
         <p className="mx-2 my-1">${price}</p>
       </div>
@@ -68,24 +68,3 @@ const ShopItem = ({ item }) => {
 };
 
 export default ShopItem;
-
-//Today:
-//implement persist
-//refactor your redux functions
-
-//Tomorow:
-//Optimize blender images
-//start styling finishes and responsiveness
-
-//Monday:
-//Finish stylish and responsiveness finishes
-//catching errors and implementing spinners
-
-//Tuesday:
-//Finish catching errors
-//Testing
-
-//Wednesday:
-//Finish testing
-//implement favicon
-//deployment

@@ -7,7 +7,7 @@ const FavoritesItem = ({ item }) => {
   const dispatch = useDispatch();
 
   return (
-    <li className="bg-zinc-50 px-2 py-2 rounded-2xl flex gap-2 items-center justify-between">
+    <li className="bg-zinc-50 px-2 py-2 rounded-2xl flex gap-2 items-center justify-between w-80 md:w-120">
       <div className="flex items-center gap-4">
         <div className="relative flex items-center justify-center bg-zinc-100 overflow-hidden p-2 w-24 h-20 self-center shrink-0 xl:shrink">
           <img className="w-full z-10" src={item.imgUrl} alt={item.name} />

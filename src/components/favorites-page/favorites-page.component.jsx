@@ -5,7 +5,7 @@ const Favorites = () => {
   const favItems = useSelector((state) => state.favItems);
 
   return (
-    <div className="px-10 pb-10 md:px-28 md:pt-8 my-16 mb-32">
+    <div className="pb-10 md:px-28 md:pt-8 mb-32 flex flex-col justify-center items-center">
       <div className="text-center text-2xl font-semibold mb-8 font-serif">
         Favorite Items
       </div>
@@ -14,7 +14,7 @@ const Favorites = () => {
           You have no favorite items yet
         </p>
       ) : (
-        <ul className="p-6 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-3 gap-2">
+        <ul className="p-6 grid grid-cols-1 md:grid-cols-2 md:gap-x-6 gap-2">
           {favItems.map((item) => {
             return <FavoritesItem key={item.id} item={item} />;
           })}

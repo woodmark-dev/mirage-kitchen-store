@@ -8,7 +8,7 @@ const MainShop = () => {
   const loadingError = useSelector((state) => state.shopItems.loadingError);
 
   return (
-    <div className="md:p-14 md:px-28 md:pt-8 md:my-16 px-4 pt-10 pb-8">
+    <div className="md:p-14 md:px-28 px-4">
       {loadingError && (
         <div className="text-center h-48">
           Could not load Items. Please try again

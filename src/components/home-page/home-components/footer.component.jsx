@@ -7,11 +7,11 @@ const Footer = () => {
       <div className="flex gap-5 md:gap-96">
         <div className="flex flex-col">
           <Link to="/">
-            <div className="w-32 h-32">
+            <div className="w-20 h-10">
               <img src={logo} alt="logo" />
             </div>
           </Link>
-          <div className="flex gap-4">
+          <div className="flex gap-4 pt-2">
             <a>
               <ion-icon name="logo-facebook"></ion-icon>
             </a>
@@ -31,7 +31,7 @@ const Footer = () => {
         </div>
         <div>
           <h3 className="mb-4">Shop</h3>
-          <div className="grid grid-cols-3 gap-3 text-sm">
+          <div className="grid grid-cols-3 gap-8 text-sm">
             <Link to="/shop/blenders">blenders</Link>
             <Link to="/shop/stoves">stoves</Link>
             <Link to="/shop/fridges">fridges</Link>

@@ -14,7 +14,7 @@ const Checkout = () => {
   }, [cartItems]);
 
   return (
-    <div className="px-10 pb-10 md:px-28 md:pt-8 my-16">
+    <div className="px-10 pb-10 md:px-28 md:pt-8">
       <div className="text-center text-2xl font-semibold mb-8 font-serif">
         Cart Items
       </div>
