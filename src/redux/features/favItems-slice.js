@@ -25,7 +25,12 @@ const favItemsReducer = (state = initialState, action) => {
       return state;
     }
     case "loadFavItems": {
-      return [...state, ...payload];
+      const result = [...state, ...payload].reduce(function (acc, curr) {
+        if (!acc.find((item) => item.id === curr.id)) acc.push(curr);
+        return acc;
+      }, []);
+
+      return result;
     }
     case "resetfavItems": {
       return payload;
