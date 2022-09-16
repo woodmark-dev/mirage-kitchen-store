@@ -41,20 +41,22 @@ const Header = () => {
     return navigate(`/favorites`);
   };
 
+  useEffect(() => {
+    const setCartFavItems = async (user, items, favoriteItems) => {
+      await setDoc(doc(database, "users", user), {
+        cartItems: items,
+        favItems: favoriteItems,
+        user: user,
+      });
+    };
+    setCartFavItems(user, cartItems, favoriteItems);
+  }, [user, cartItems, favoriteItems]);
+
   const handleSignOut = () => {
     if (user) {
       signout();
       store.dispatch(setState(false));
       store.dispatch(resetUser());
-
-      const setCartFavItems = async (user, items, favoriteItems) => {
-        await setDoc(doc(database, "users", user), {
-          cartItems: items,
-          favItems: favoriteItems,
-          user: user,
-        });
-      };
-      setCartFavItems(user, cartItems, favoriteItems);
 
       store.dispatch(resetCartItems([]));
       store.dispatch(resetFavItems([]));

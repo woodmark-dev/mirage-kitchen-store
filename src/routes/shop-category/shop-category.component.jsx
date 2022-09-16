@@ -27,7 +27,7 @@ const ShopCategoryRoute = () => {
   }, [shopItems, category]);
 
   return (
-    <div className="relative px-10 py-14">
+    <div className="relative px-4 md:py-14 pb-4">
       <p className="uppercase text-xl text-center font-semibold mb-6">
         {category}
       </p>
@@ -39,7 +39,7 @@ const ShopCategoryRoute = () => {
       {loadingState === true ? (
         <LoadingSpinner />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {shopItem &&
             shopItem.map((item) => <ShopItem key={item.id} item={item} />)}
         </div>
