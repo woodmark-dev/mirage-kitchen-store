@@ -47,9 +47,9 @@ const ShopItem = ({ item }) => {
               color: fun(favItems, item) === true ? "red" : "white",
               backgroundColor: fun(favItems, item) === true ? "white" : "black",
             }}
-            className="text-3xl rounded w-8 h-8 flex justify-center items-center"
+            className="text-3xl rounded w-5 h-5 flex justify-center items-center"
           >
-            &hearts;
+            &#9825;
           </p>
         </div>
       </div>

@@ -74,7 +74,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center md:justify-between pt-10 md:px-10 px-4">
+    <div className="flex items-center md:justify-between md:px-10 px-4">
       <Link className="pt-6 w-32 h-32" to="/">
         <img src={logo} alt="logo" />
       </Link>
@@ -104,9 +104,9 @@ const Header = () => {
               color: favoTotal === 0 ? "white" : "red",
               backgroundColor: favoTotal === 0 ? "black" : "white",
             }}
-            className="text-2xl md:text-3xl rounded w-7 h-7 md:w-8 md:h-8 flex justify-center items-center"
+            className="text-2xl md:text-3xl rounded w-5 h-5 md:w-8 md:h-8 flex justify-center items-center"
           >
-            &hearts;
+            &#9825;
           </div>
           {userState && (
             <div className="flex items-center justify-center text-black w-5 h-5 bg-zinc-200 rounded-full absolute -top-3 -right-3 text-xs">
