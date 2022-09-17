@@ -33,7 +33,9 @@ const Footer = () => {
           <h3 className="mb-4">Shop</h3>
           <div className="grid grid-cols-3 gap-8 text-sm">
             <Link to="/shop/blenders">blenders</Link>
-            <Link to="/shop/stoves">stoves</Link>
+            <Link to="/shop/stoves" className="ml-1">
+              stoves
+            </Link>
             <Link to="/shop/fridges">fridges</Link>
             <Link to="/shop/coffee%20makers">coffee makers</Link>
             <Link to="/shop/deep%20fryers">deep fryers</Link>

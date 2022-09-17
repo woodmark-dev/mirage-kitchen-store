@@ -107,7 +107,7 @@ const Header = () => {
               color: favoTotal === 0 ? "white" : "red",
               backgroundColor: favoTotal === 0 ? "black" : "white",
             }}
-            className="text-2xl md:text-3xl rounded w-5 h-5 md:w-8 md:h-8 flex justify-center items-center"
+            className="text-2xl md:text-3xl rounded w-6 h-7 md:w-8 md:h-8 flex justify-center items-center"
           >
             &#9825;
           </div>
