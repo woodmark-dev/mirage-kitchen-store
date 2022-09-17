@@ -12,6 +12,14 @@ const CartItem = () => {
   const cartItems = useSelector((state) => state.cartItems);
   const storeItems = useSelector((state) => state.allShopItems);
 
+  const addToCartHandler = (storeItems, item) => {
+    dispatch(addToCart(storeItems, item));
+  };
+
+  const subtractFromCartHandler = (storeItems, item) => {
+    dispatch(subtractFromCart(storeItems, item));
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -47,14 +55,14 @@ const CartItem = () => {
 
               <div className="flex flex-col items-center ml-2">
                 <span
-                  onClick={() => dispatch(addToCart(storeItems, item))}
+                  onClick={() => addToCartHandler(storeItems, item)}
                   className="font-medium text-lg rounded-full hover:bg-zinc-200 flex items-center justify-center"
                 >
                   <ion-icon name="add-outline"></ion-icon>
                 </span>
                 <span className="font-medium">{item.quantity}</span>
                 <span
-                  onClick={() => dispatch(subtractFromCart(storeItems, item))}
+                  onClick={() => subtractFromCartHandler(storeItems, item)}
                   className="font-medium text-lg rounded-full hover:bg-zinc-200 flex items-center justify-center"
                 >
                   <ion-icon name="remove-outline"></ion-icon>

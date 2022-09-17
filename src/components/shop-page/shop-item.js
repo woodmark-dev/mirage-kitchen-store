@@ -23,8 +23,15 @@ const ShopItem = ({ item }) => {
   }, [favItems, item]);
 
   const favIconHandler = (storeItems, item) => {
-    if (userState === true) return dispatch(addRemoveFav(storeItems, item));
-    return store.dispatch(togglePopup());
+    if (userState === true) {
+      dispatch(addRemoveFav(storeItems, item));
+    } else {
+      store.dispatch(togglePopup());
+    }
+  };
+
+  const addToCartHandler = (storeItems, item) => {
+    dispatch(addToCart(storeItems, item));
   };
 
   const { imgUrl, name, price } = item;
@@ -47,7 +54,7 @@ const ShopItem = ({ item }) => {
               color: fun(favItems, item) === true ? "red" : "white",
               backgroundColor: fun(favItems, item) === true ? "white" : "black",
             }}
-            className="text-3xl rounded w-5 h-5 md:h-8 md:w-8 flex justify-center items-center"
+            className="text-3xl rounded w-6 h-7 md:h-8 md:w-8 flex justify-center items-center"
           >
             &#9825;
           </p>
@@ -58,7 +65,7 @@ const ShopItem = ({ item }) => {
         <p className="mx-2 my-1">${price}</p>
       </div>
       <button
-        onClick={() => dispatch(addToCart(storeItems, item))}
+        onClick={() => addToCartHandler(storeItems, item)}
         className="font-medium p-2 border-2 border-zinc-200 bg-zinc-200 rounded-lg text-center w-full"
       >
         Add to cart

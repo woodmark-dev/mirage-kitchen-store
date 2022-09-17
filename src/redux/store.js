@@ -33,7 +33,6 @@ const persistConfig = {
     "categoriesItem",
     "cartToggle",
     "popupToggle",
-    " userData",
   ],
 };
 

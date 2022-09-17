@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
+import { database } from "../../../firebase-utils/config";
 
 import { useSignOut } from "../../../custom-hooks/useSignOut";
 import CartItems from "../cart/cartItems";
@@ -11,8 +13,6 @@ import { togglePopup } from "../../redux-functions/redex-functions";
 import store from "../../../redux/store";
 import { cartTotal } from "../../../redux/helperfunctions";
 import { favTotal } from "../../../redux/helperfunctions";
-import { database } from "../../../firebase-utils/config";
-import { doc, setDoc } from "firebase/firestore";
 import logo from "../../../logo/new-logo.png";
 
 import {
@@ -22,6 +22,14 @@ import {
   resetCartItems,
   resetFavItems,
 } from "../../redux-functions/redex-functions";
+
+export const setCartFavItems = async (user, items, favoriteItems) => {
+  await setDoc(doc(database, "users", user), {
+    cartItems: items,
+    favItems: favoriteItems,
+    user: user,
+  });
+};
 
 const Header = () => {
   const toggle = useSelector((state) => state.cartToggle);
@@ -40,17 +48,6 @@ const Header = () => {
     if (userState === false) return store.dispatch(togglePopup());
     return navigate(`/favorites`);
   };
-
-  useEffect(() => {
-    const setCartFavItems = async (user, items, favoriteItems) => {
-      await setDoc(doc(database, "users", user), {
-        cartItems: items,
-        favItems: favoriteItems,
-        user: user,
-      });
-    };
-    setCartFavItems(user, cartItems, favoriteItems);
-  }, [user, cartItems, favoriteItems]);
 
   const handleSignOut = () => {
     if (user) {
@@ -74,6 +71,10 @@ const Header = () => {
   const toggleHandler = () => {
     store.dispatch(toggleCart());
   };
+
+  useEffect(() => {
+    if (user) setCartFavItems(user, cartItems, favoriteItems);
+  }, [user, cartItems, favoriteItems]);
 
   return (
     <div className="flex items-center md:justify-between md:px-10 px-4">

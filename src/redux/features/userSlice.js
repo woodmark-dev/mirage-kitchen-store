@@ -44,10 +44,6 @@ const userReducer = (state = initialSate, action) => {
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    store.dispatch(fetchUser(user.uid));
-    store.dispatch(setState(true));
-    store.dispatch(fetchDisplayName(user.displayName));
-
     const fetchData = async () => {
       const ref = collection(database, "users");
       const q = query(ref, where("user", "==", user.uid));
@@ -55,8 +51,12 @@ onAuthStateChanged(auth, (user) => {
       querySnapshot.forEach((doc) => {
         store.dispatch(loadUserCartItems(doc.data().cartItems));
         store.dispatch(loadUserFavItems(doc.data().favItems));
+        store.dispatch(fetchUser(user.uid));
+        store.dispatch(setState(true));
+        store.dispatch(fetchDisplayName(user.displayName));
       });
     };
+
     fetchData();
   }
 });
