@@ -49,7 +49,10 @@ const ContactPage = () => {
               required
             ></textarea>
           </div>
-          <button className="font-semibold text-lg p-3 bg-zinc-300 rounded-lg hover:bg-zinc-600 hover:text-white transition-all duration-200">
+          <button
+            type="submit"
+            className="font-semibold text-lg p-3 bg-zinc-300 rounded-lg hover:bg-zinc-600 hover:text-white transition-all duration-200"
+          >
             Submit
           </button>
         </form>
