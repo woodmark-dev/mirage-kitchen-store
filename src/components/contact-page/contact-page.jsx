@@ -4,6 +4,7 @@ const ContactPage = () => {
       <div className="bg-zinc-200 p-4 rounded-2xl w-120">
         <form
           action=""
+          name="contact"
           className="flex flex-col gap-4 -28 bg-zinc-50 rounded-xl px-5 py-10 "
           netlify
         >
