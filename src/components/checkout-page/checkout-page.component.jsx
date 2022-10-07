@@ -19,6 +19,11 @@ const Checkout = () => {
         Cart Items
       </div>
 
+      <div className="text-red-500 text-center text-lg">
+        <p>*Please use the following test credit card for payments*</p>
+        <p>4242 4242 4242 4242 - Exp: 01/25 - CVV: 123 - Zip: 12345</p>
+      </div>
+
       <div className="bg-zinc-100 rounded-2xl pb-2">
         {cartItems.length === 0 ? (
           <p className="text-center uppercase my-20 pt-3">

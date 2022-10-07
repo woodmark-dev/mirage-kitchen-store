@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import ButtonSpinner from "../button-spinner/button-spinner.component";
+import store from "../../redux/store.js";
+import { resetCartItems } from "../redux-functions/redex-functions.js";
 
 const PaymentForm = ({ total }) => {
   const userState = useSelector((state) => state.userData.userState);
@@ -46,6 +48,7 @@ const PaymentForm = ({ total }) => {
       setPaymentError(() => true);
     } else {
       if (paymentResult.paymentIntent.status === "succeeded") {
+        store.dispatch(resetCartItems([]));
         setPaymentSuccess(() => true);
       }
     }

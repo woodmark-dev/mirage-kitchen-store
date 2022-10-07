@@ -5,12 +5,14 @@ const ContactPage = () => {
         <form
           action=""
           className="flex flex-col gap-4 -28 bg-zinc-50 rounded-xl px-5 py-10 "
+          netlify
         >
           <div>
             <label className="block text-lg font-medium mb-2">Full name</label>
             <input
               className="p-3 border-2 border-zinc-300 w-full rounded-lg"
               type="text"
+              name="Name: "
               required
             />
           </div>
@@ -20,6 +22,7 @@ const ContactPage = () => {
               className="p-3 border-2 border-zinc-300 w-full rounded-lg"
               type="email"
               required
+              name="Email: "
             />
           </div>
           <div>
@@ -29,6 +32,7 @@ const ContactPage = () => {
             <input
               className="p-3 border-2 border-zinc-300 w-full rounded-lg"
               type="text"
+              name="Purpose: "
               required
             />
           </div>
@@ -37,7 +41,7 @@ const ContactPage = () => {
             <textarea
               className="p-3 border-2 border-zinc-300 w-full rounded-lg"
               type="text"
-              name=""
+              name="Message: "
               id=""
               cols="30"
               rows="4"
